@@ -1,5 +1,8 @@
- models:
-  - name: stg_customer
+models:
+  - name: stg_customers
+    config:
+      pre_hook: "alter session set query_tag= 'hooks'"
+      group: sales
     columns:
       - name: customers_id
         description: '{{doc ("Primary_Key") }}'
@@ -9,20 +12,42 @@
       - name: nation_id
         data_tests:
           - relationships:
-              to: ref('stg_nations')
-              field: nation_id
+              arguments:
+                to: ref('stg_nations')
+                field: nation_id
   - name: stg_nations
+    config:
+      group: sales
+      contract:
+        enforced: true
     columns:
       - name: nation_id
+        data_type: string
+        constraints:
+          - type: not_null
         description: '{{doc ("Primary_Key") }}'
         data_tests:
           - unique
           - not_null
       - name: region_id
+        data_type: int
+        constraints:
+          - type: not_null
         data_tests:
           - relationships:
-              to: ref('stg_regions')
-              field: region_id
+              arguments:
+                to: ref('stg_regions')
+                field: region_id
+      - name: nation_name
+        data_type: string
+        constraints:
+          - type: not_null
+      - name: updated_at
+        data_type: date
+        constraints:
+          - type: not_null
+
+
   - name: stg_regions
     description: "This table contains region data."
     columns:
@@ -35,7 +60,7 @@
         data_tests:
           - accepted_values:
               arguments:
-                values: ['ASIA', 'AFRICA', 'AMERICA']
+                values: ['ASIA', 'AFRICA', 'AMERICA', 'EUROPE', 'MIDDLE EAST', 'SOUTH EAST']
                 config:
                   store_failures: true
                   schema: error
@@ -48,21 +73,20 @@
       - name: customer_id
         data_tests:
           - relationships:
-              to: ref('stg_customer')
-              field: customers_id
+              arguments:
+                to: ref('stg_customer')
+                field: customers_id
       - name: status_code
         data_tests:
           - accepted_values:
-              values: ['O', 'F', 'P']
+              arguments:
+                values: ['O', 'F', 'P']
   - name: stg_line_items
     description: "This table contains line item data."
     columns:
       - name: order_item_id
         description: '{{doc ("Primary_Key") }}'
-
-seeds:
-  - name: suppliers
-    config:
-      alias: supplier_names
-      
-      
+# seeds:
+#   - name: suppliers
+#     config:
+#       alias: supplier_name
