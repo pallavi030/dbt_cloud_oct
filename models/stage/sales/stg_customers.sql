@@ -1,5 +1,9 @@
 
-{{config(materialized='view')}}
+{#{{config(materialized='view',
+tags='sample',
+pre_hook="use warehouse test_wh"
+
+)}}#}
 
 with customer as (
 select c_custkey as customers_id,
@@ -12,7 +16,7 @@ select c_custkey as customers_id,
        c_comment as comment
  from {{source('src','customers')}}
 )
-select * from customer limit 100
+select * from customer 
 
     
 

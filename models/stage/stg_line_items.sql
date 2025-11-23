@@ -5,10 +5,11 @@ with source as (
 changed as (
     select 
         -- identifiers
-        concat(l_orderkey,l_linenumber)::integer as order_item_id,
+        {{dbt_utils.generate_surrogate_key(['l_orderkey','l_linenumber '])}} as order_item_id,
         l_orderkey as order_id,
         l_partkey as part_id,
         l_suppkey as supplier_id,
+        --l_linenumber as line_number
     
 
         -- descriptions
