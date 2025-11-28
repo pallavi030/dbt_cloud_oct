@@ -33,7 +33,7 @@ final as (
     select
         -- Supplier columns
         s.supplier_id,
-        s.nation_id,
+        --s.nation_id,
         s.supplier_name,
         s.supplier_address,
         s.phone_number,
@@ -43,13 +43,11 @@ final as (
 
         -- Nation columns
         n.nation_name,
-        n.region_id,
         n.nation_updated_at,
 
         -- Region columns
         r.region_name,
         r.region_comment
-
     from suppliers s
     join nations n 
         on s.nation_id = n.nation_id

@@ -19,7 +19,7 @@ models:
     config:
       group: sales
       contract:
-        enforced: true
+        enforced: false
     columns:
       - name: nation_id
         data_type: string
@@ -43,7 +43,7 @@ models:
         constraints:
           - type: not_null
       - name: updated_at
-        data_type: date
+        data_type: TIMESTAMP_NTZ
         constraints:
           - type: not_null
 

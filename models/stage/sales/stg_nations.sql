@@ -6,7 +6,8 @@ with nation as (
         N_NATIONKEY::varchar as nation_id,
         N_NAME as nation_name,
         N_REGIONKEY as region_id,
-        updated_at 
+        updated_at,
+        {{ dbt_meta() }}
     from {{ source('src', 'nations') }}
 )
 select * from nation
